@@ -1,22 +1,19 @@
-const express = require('express')
-const { placesGET } = require("./modules/places/get")
-const { placesPOST } = require("./modules/places/post")
-const cors = require('cors');
-const app = express()
-const port = 3100
+const express = require("express");
+const morgan = require('morgan')
+const cors = require("cors");
+const app = express();
+const port = 3100;
 
-app.use(cors({
-  origin: `*`,
-}))
+app.use(morgan("dev"));
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+app.use(
+  cors({
+    origin: `*`,
+  })
+);
 
-app.get('/places', placesGET)
-
-app.post('/places', placesPOST)
+app.use("/", require("./src/routes"));
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+  console.log(`Example app listening on port ${port}`);
+});
